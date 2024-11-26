@@ -1,1 +1,16 @@
 HELLO
+
+changes made
+sheildimage.java
+1. changed the file format in shieldimage.java
+
+userplane.java
+1. new constants for horizontal movement
+2. update position
+image height 150 to 100
+
+levelparent
+1. added keycode left and right for front and back
+
+levelone
+1. changed num of kills to advance from 10 to 5, making it an easy level
