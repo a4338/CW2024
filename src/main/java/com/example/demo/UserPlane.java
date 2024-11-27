@@ -17,8 +17,8 @@ public class UserPlane extends FighterPlane {
 	private static final double X_RIGHT_BOUND = 600.0;
 	private static final int HORIZONTAL_VELOCITY = 8;
 	private int velocityMultiplier;
-	private int verticalVelocityMultiplier = 0;  // Neutral state by default
-	private int horizontalVelocityMultiplier = 0; // Neutral state by default
+	private int verticalVelocityMultiplier = -1;  // Neutral state by default
+	private int horizontalVelocityMultiplier = -1; // Neutral state by default
 	private int numberOfKills;
 
 	public UserPlane(int initialHealth) {
