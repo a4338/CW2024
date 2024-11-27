@@ -10,10 +10,18 @@ userplane.java
 image height 150 to 100
 
 levelparent
-1. added keycode left and right for front and back
+1. added keycode left and right for forward and backward movement
 
 levelone
 1. changed num of kills to advance from 10 to 5, making it an easy level
 
+
+
+refactoring: changed the keys, used switch case instead for key released  *check if i need to do so for key pressed as well (change to switch case)
+changed milisecond delay for a faster game
+fixed loss screen y position typo in levelview
+
 things i wanna do
-smaller game over image
+1. smaller game over image
+2. main menu
+3. restart

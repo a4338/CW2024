@@ -14,7 +14,7 @@ import javafx.util.Duration;
 public abstract class LevelParent extends Observable {
 
 	private static final double SCREEN_HEIGHT_ADJUSTMENT = 150;
-	private static final int MILLISECOND_DELAY = 50;
+	private static final int MILLISECOND_DELAY = 40;
 	private final double screenHeight;
 	private final double screenWidth;
 	private final double enemyMaximumYPosition;
@@ -108,42 +108,32 @@ public abstract class LevelParent extends Observable {
 				KeyCode kc = e.getCode();
 				if (kc == KeyCode.UP) user.moveUp();
 				if (kc == KeyCode.DOWN) user.moveDown();
-				if (kc == KeyCode.LEFT) user.moveForward();
-				if (kc == KeyCode.RIGHT) user.moveBackward();
+				if (kc == KeyCode.RIGHT) user.moveForward();
+				if (kc == KeyCode.LEFT) user.moveBackward();
 				if (kc == KeyCode.SPACE) fireProjectile();
 			}
 		});
 		background.setOnKeyReleased(new EventHandler<KeyEvent>() {
+
 			public void handle(KeyEvent e) {
 				KeyCode kc = e.getCode();
 
-				if (e.getEventType() == KeyEvent.KEY_RELEASED) {
-					// Stop vertical movement when UP or DOWN is released
-					if (kc == KeyCode.UP || kc == KeyCode.DOWN) {
-						user.stopVerticalMovement();
+				if (e.getEventType() == KeyEvent.KEY_PRESSED) {
+					// Handle key pressed
+					switch (kc) {
+						case UP -> user.moveUp();
+						case DOWN -> user.moveDown();
+						case LEFT -> user.moveBackward();
+						case RIGHT -> user.moveForward();
 					}
-
-					// Stop horizontal movement when LEFT or RIGHT is released
-					if (kc == KeyCode.LEFT || kc == KeyCode.RIGHT) {
-						user.stopHorizontalMovement();
-					}
-				} else if (e.getEventType() == KeyEvent.KEY_PRESSED) {
-					// Handle vertical movement
-					if (kc == KeyCode.UP) {
-						user.moveUp();
-					} else if (kc == KeyCode.DOWN) {
-						user.moveDown();
-					}
-
-					// Handle horizontal movement
-					if (kc == KeyCode.LEFT) {
-						user.moveBackward();
-					} else if (kc == KeyCode.RIGHT) {
-						user.moveForward();
+				} else if (e.getEventType() == KeyEvent.KEY_RELEASED) {
+					// Handle key released
+					switch (kc) {
+						case UP, DOWN -> user.stopVerticalMovement();
+						case LEFT, RIGHT -> user.stopHorizontalMovement();
 					}
 				}
 			}
-
 
 		});
 		root.getChildren().add(background);

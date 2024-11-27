@@ -8,22 +8,22 @@ public class UserPlane extends FighterPlane {
 	private static final double INITIAL_X_POSITION = 5.0;
 	private static final double INITIAL_Y_POSITION = 300.0;
 	private static final int IMAGE_HEIGHT = 150;
-	private static final int VERTICAL_VELOCITY = 8;
+	private static final int VERTICAL_VELOCITY = 10;
+	private static final int HORIZONTAL_VELOCITY = 10;
 	private static final int PROJECTILE_X_POSITION = 110;
 	private static final int PROJECTILE_Y_POSITION_OFFSET = 20;
 
 	// New constants for horizontal movement
 	private static final double X_LEFT_BOUND = -40.0;
 	private static final double X_RIGHT_BOUND = 600.0;
-	private static final int HORIZONTAL_VELOCITY = 8;
-	private int velocityMultiplier;
-	private int verticalVelocityMultiplier = -1;  // Neutral state by default
-	private int horizontalVelocityMultiplier = -1; // Neutral state by default
+	private int verticalVelocityMultiplier;
+	private int horizontalVelocityMultiplier;
 	private int numberOfKills;
 
 	public UserPlane(int initialHealth) {
 		super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, initialHealth);
-		velocityMultiplier = 0;
+		verticalVelocityMultiplier = 0;
+		horizontalVelocityMultiplier = 0;
 	}
 	
 	@Override
@@ -65,7 +65,7 @@ public class UserPlane extends FighterPlane {
 	}
 
 	private boolean isMoving() {
-		return velocityMultiplier != 0;
+		return verticalVelocityMultiplier != 0 || horizontalVelocityMultiplier != 0;
 	}
 
 
