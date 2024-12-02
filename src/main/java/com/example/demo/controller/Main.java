@@ -12,6 +12,7 @@ public class Main extends Application {
 	private static final String TITLE = "Sky Battle";
 	private Controller myController;
 	//test
+	//testing
 
 	@Override
 	public void start(Stage stage) throws ClassNotFoundException, NoSuchMethodException, SecurityException,
