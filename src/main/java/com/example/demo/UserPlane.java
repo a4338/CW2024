@@ -7,32 +7,57 @@ public class UserPlane extends FighterPlane {
 	private static final double Y_LOWER_BOUND = 600.0;
 	private static final double INITIAL_X_POSITION = 5.0;
 	private static final double INITIAL_Y_POSITION = 300.0;
-	private static final int IMAGE_HEIGHT = 150;
+	private static final int IMAGE_HEIGHT = 200;
 	private static final int VERTICAL_VELOCITY = 8;
+	private static final int HORIZONTAL_VELOCITY = 8;
 	private static final int PROJECTILE_X_POSITION = 110;
 	private static final int PROJECTILE_Y_POSITION_OFFSET = 20;
-	private int velocityMultiplier;
+	// New constants for horizontal movement
+	private static final double X_LEFT_BOUND = -40.0;
+	private static final double X_RIGHT_BOUND = 600.0;
+	private int verticalVelocityMultiplier;
+	private int horizontalVelocityMultiplier;
 	private int numberOfKills;
+	// private int velocityMultiplier;
+
 
 	public UserPlane(int initialHealth) {
 		super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, initialHealth);
-		velocityMultiplier = 0;
+		// velocityMultiplier = 0;
+		verticalVelocityMultiplier = 0;
+		horizontalVelocityMultiplier = 0;
 	}
 	
 	@Override
 	public void updatePosition() {
 		if (isMoving()) {
+			// Store the initial translation values
 			double initialTranslateY = getTranslateY();
-			this.moveVertically(VERTICAL_VELOCITY * velocityMultiplier);
-			double newPosition = getLayoutY() + getTranslateY();
-			if (newPosition < Y_UPPER_BOUND || newPosition > Y_LOWER_BOUND) {
+			double initialTranslateX = getTranslateX();
+
+			// Move vertically and horizontally
+			this.moveVertically(VERTICAL_VELOCITY * verticalVelocityMultiplier);
+			this.moveHorizontally(HORIZONTAL_VELOCITY * horizontalVelocityMultiplier);
+
+			// Calculate new positions
+			double newVerticalPosition = getLayoutY() + getTranslateY();
+			double newHorizontalPosition = getLayoutX() + getTranslateX();
+
+			// Check boundaries for vertical movement
+			if (newVerticalPosition < Y_UPPER_BOUND || newVerticalPosition > Y_LOWER_BOUND) {
 				this.setTranslateY(initialTranslateY);
+			}
+
+			// Check boundaries for horizontal movement
+			if (newHorizontalPosition < X_LEFT_BOUND || newHorizontalPosition > X_RIGHT_BOUND) {
+				this.setTranslateX(initialTranslateX);
 			}
 		}
 	}
 	
 	@Override
 	public void updateActor() {
+
 		updatePosition();
 	}
 	
@@ -42,26 +67,38 @@ public class UserPlane extends FighterPlane {
 	}
 
 	private boolean isMoving() {
-		return velocityMultiplier != 0;
+		return verticalVelocityMultiplier != 0 || horizontalVelocityMultiplier != 0;
 	}
 
+
 	public void moveUp() {
-		velocityMultiplier = -1;
+		verticalVelocityMultiplier = -1;
 	}
 
 	public void moveDown() {
-		velocityMultiplier = 1;
+		verticalVelocityMultiplier = 1;
+	}
+
+	public void moveForward() {
+		horizontalVelocityMultiplier = 1;
+	}
+
+	public void moveBackward() {
+		horizontalVelocityMultiplier = -1;
 	}
 
 	public void stop() {
-		velocityMultiplier = 0;
+		verticalVelocityMultiplier = 0;
+		horizontalVelocityMultiplier = 0;
 	}
 
 	public int getNumberOfKills() {
+
 		return numberOfKills;
 	}
 
 	public void incrementKillCount() {
+
 		numberOfKills++;
 	}
 

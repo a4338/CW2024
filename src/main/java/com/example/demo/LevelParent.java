@@ -14,7 +14,7 @@ import javafx.util.Duration;
 public abstract class LevelParent extends Observable {
 
 	private static final double SCREEN_HEIGHT_ADJUSTMENT = 150;
-	private static final int MILLISECOND_DELAY = 50;
+	private static final int MILLISECOND_DELAY = 40;
 	private final double screenHeight;
 	private final double screenWidth;
 	private final double enemyMaximumYPosition;
@@ -108,6 +108,8 @@ public abstract class LevelParent extends Observable {
 				KeyCode kc = e.getCode();
 				if (kc == KeyCode.UP) user.moveUp();
 				if (kc == KeyCode.DOWN) user.moveDown();
+				if (kc == KeyCode.RIGHT) user.moveForward(); // Add forward movement
+				if (kc == KeyCode.LEFT) user.moveBackward(); // Add backward movement
 				if (kc == KeyCode.SPACE) fireProjectile();
 			}
 		});
@@ -115,6 +117,7 @@ public abstract class LevelParent extends Observable {
 			public void handle(KeyEvent e) {
 				KeyCode kc = e.getCode();
 				if (kc == KeyCode.UP || kc == KeyCode.DOWN) user.stop();
+				if (kc == KeyCode.RIGHT || kc == KeyCode.LEFT) user.stop();
 			}
 		});
 		root.getChildren().add(background);
