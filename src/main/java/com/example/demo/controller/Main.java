@@ -11,8 +11,11 @@ public class Main extends Application {
 	private static final int SCREEN_HEIGHT = 750;
 	private static final String TITLE = "Sky Battle";
 	private Controller myController;
+<<<<<<< HEAD
 	//test
 	//testing
+=======
+>>>>>>> 93bd4342adfab2e121d8d38b36adbfceae3fed89
 
 	@Override
 	public void start(Stage stage) throws ClassNotFoundException, NoSuchMethodException, SecurityException,
