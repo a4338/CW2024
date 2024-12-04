@@ -1,4 +1,4 @@
-package com.example.demo;
+ package com.example.demo;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -76,6 +76,7 @@ public abstract class LevelParent extends Observable {
 	public void goToNextLevel(String levelName) {
 		setChanged();
 		notifyObservers(levelName);
+		// timeline.stop
 	}
 
 	private void updateScene() {
@@ -169,21 +170,25 @@ public abstract class LevelParent extends Observable {
 		handleCollisions(userProjectiles, enemyUnits);
 	}
 
+
+
 	private void handleEnemyProjectileCollisions() {
-		handleCollisions(enemyProjectiles, friendlyUnits);
+	handleCollisions(enemyProjectiles, friendlyUnits);
 	}
 
-	private void handleCollisions(List<ActiveActorDestructible> actors1,
-			List<ActiveActorDestructible> actors2) {
-		for (ActiveActorDestructible actor : actors2) {
-			for (ActiveActorDestructible otherActor : actors1) {
-				if (actor.getBoundsInParent().intersects(otherActor.getBoundsInParent())) {
-					actor.takeDamage();
-					otherActor.takeDamage();
-				}
+
+private void handleCollisions(List<ActiveActorDestructible> actors1,
+							  List<ActiveActorDestructible> actors2) {
+	for (ActiveActorDestructible actor : actors2) {
+		for (ActiveActorDestructible otherActor : actors1) {
+			if (actor.getBoundsInParent().intersects(otherActor.getBoundsInParent())) {
+				actor.takeDamage();
+				otherActor.takeDamage();
 			}
 		}
 	}
+}
+
 
 	private void handleEnemyPenetration() {
 		for (ActiveActorDestructible enemy : enemyUnits) {
@@ -204,8 +209,13 @@ public abstract class LevelParent extends Observable {
 		}
 	}
 
+
 	private boolean enemyHasPenetratedDefenses(ActiveActorDestructible enemy) {
-		return Math.abs(enemy.getTranslateX()) > screenWidth;
+		if(enemy instanceof EnemyProjectile){
+			return enemy.getX() <= 0;
+		}
+
+		return false;
 	}
 
 	protected void winGame() {
@@ -242,7 +252,9 @@ public abstract class LevelParent extends Observable {
 	protected double getScreenWidth() {
 		return screenWidth;
 	}
-
+	/* protected double getScreenHeight(){
+		return screenHeight;
+	} */
 	protected boolean userIsDestroyed() {
 		return user.isDestroyed();
 	}
