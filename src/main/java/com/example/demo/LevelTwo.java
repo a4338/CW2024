@@ -45,7 +45,7 @@ public class LevelTwo extends LevelParent {
 			goToNextLevel(NEXT_LEVEL);
 			//winGame();
 		}
-	} */
+	}  */
 
 	@Override
 	protected void checkIfGameOver() {

@@ -9,7 +9,7 @@ public class Main extends Application {
 
 	private static final int SCREEN_WIDTH = 1300; //1920;
 	private static final int SCREEN_HEIGHT = 750; //1080;
-	private static final String TITLE = "Sky Battle";
+	private static final String TITLE = "Mario's Sky Battle";
 	private Controller myController;
 
 	@Override

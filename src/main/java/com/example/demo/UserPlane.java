@@ -114,6 +114,7 @@ public ActiveActorDestructible fireProjectile() {
 
 	public int getNumberOfKills() {
 
+		// System.out.println("Number of enemies killed:"+ numberOfKills);
 		return numberOfKills;
 	}
 

@@ -11,6 +11,7 @@ import javafx.scene.image.*;
 import javafx.scene.input.*;
 import javafx.util.Duration;
 
+
 public abstract class LevelParent extends Observable {
 
 	private static final double SCREEN_HEIGHT_ADJUSTMENT = 150;
@@ -29,9 +30,10 @@ public abstract class LevelParent extends Observable {
 	private final List<ActiveActorDestructible> enemyUnits;
 	private final List<ActiveActorDestructible> userProjectiles;
 	private final List<ActiveActorDestructible> enemyProjectiles;
-	
+
 	private int currentNumberOfEnemies;
 	private LevelView levelView;
+
 
 	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth) {
 		this.root = new Group();
@@ -58,6 +60,7 @@ public abstract class LevelParent extends Observable {
 	protected abstract void checkIfGameOver();
 
 	protected abstract void spawnEnemyUnits();
+
 
 	protected abstract LevelView instantiateLevelView();
 
@@ -184,6 +187,7 @@ private void handleCollisions(List<ActiveActorDestructible> actors1,
 			if (actor.getBoundsInParent().intersects(otherActor.getBoundsInParent())) {
 				actor.takeDamage();
 				otherActor.takeDamage();
+
 			}
 		}
 	}
@@ -195,6 +199,7 @@ private void handleCollisions(List<ActiveActorDestructible> actors1,
 			if (enemyHasPenetratedDefenses(enemy)) {
 				user.takeDamage();
 				enemy.destroy();
+				System.out.println("User took damage. Remaining health: " + user.getHealth());
 			}
 		}
 	}
@@ -223,10 +228,10 @@ private void handleCollisions(List<ActiveActorDestructible> actors1,
 		levelView.showWinImage();
 	}
 
-	protected void loseGame() {
+	/* protected void loseGame() {
 		timeline.stop();
 		levelView.showGameOverImage();
-	}
+	} */
 
 	protected UserPlane getUser() {
 		return user;
@@ -263,4 +268,8 @@ private void handleCollisions(List<ActiveActorDestructible> actors1,
 		currentNumberOfEnemies = enemyUnits.size();
 	}
 
+	protected void loseGame() {
+		timeline.stop();
+		levelView.showGameOverImage();
+	}
 }
