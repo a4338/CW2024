@@ -20,8 +20,8 @@ public class UserPlane extends FighterPlane {
 	private int numberOfKills;
 	// private int velocityMultiplier;
 
-//reflective shield state
-private boolean reflectiveShieldActive;
+	//reflective shield state
+	private boolean reflectiveShieldActive;
 
 	public UserPlane(int initialHealth) {
 		super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, initialHealth);
@@ -30,7 +30,7 @@ private boolean reflectiveShieldActive;
 		horizontalVelocityMultiplier = 0;
 		reflectiveShieldActive = false; //initialise shield
 	}
-	
+
 	@Override
 	public void updatePosition() {
 		if (isMoving()) {
@@ -57,35 +57,15 @@ private boolean reflectiveShieldActive;
 			}
 		}
 	}
-	
+
 	@Override
 	public void updateActor() {
 		updatePosition();
 	}
-
-	 /*
-	 public double getX() {
-		return getLayoutX() + getTranslateX(); // Current horizontal position
-	}
-
-	public double getY() {
-		return getLayoutY() + getTranslateY(); // Current vertical position
-	}
-
-	*/
-
-
-	/*@Override
+	@Override
 	public ActiveActorDestructible fireProjectile() {
 		return new UserProjectile(PROJECTILE_X_POSITION, getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET));
-		return new UserProjectile(getLayoutX() + PROJECTILE_X_POSITION,
-				getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET),
-				this); // Pass reference to UserPlane */
-
-@Override
-public ActiveActorDestructible fireProjectile() {
-	return new UserProjectile(PROJECTILE_X_POSITION, getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET));
-}
+	}
 	private boolean isMoving() {
 		return verticalVelocityMultiplier != 0 || horizontalVelocityMultiplier != 0;
 	}
@@ -122,27 +102,27 @@ public ActiveActorDestructible fireProjectile() {
 
 		numberOfKills++;
 	}
-// Reflective Shield Logic
-public void setReflectiveShieldActive(boolean isActive) {
-	this.reflectiveShieldActive = isActive;
-	if (isActive) {
-		activateReflectiveShieldVisual();
-	} else {
-		deactivateReflectiveShieldVisual();
+	// Reflective Shield Logic
+	public void setReflectiveShieldActive(boolean isActive) {
+		this.reflectiveShieldActive = isActive;
+		if (isActive) {
+			activateReflectiveShieldVisual();
+		} else {
+			deactivateReflectiveShieldVisual();
+		}
 	}
-}
 
-public boolean isReflectiveShieldActive() {
-	return reflectiveShieldActive;
-}
+	public boolean isReflectiveShieldActive() {
+		return reflectiveShieldActive;
+	}
 
-private void activateReflectiveShieldVisual() {
-	setEffect(new Glow(0.5)); // Add a glowing effect to indicate the shield is active
-	System.out.println("Reflective shield activated!");
-}
+	private void activateReflectiveShieldVisual() {
+		setEffect(new Glow(0.5)); // Add a glowing effect to indicate the shield is active
+		System.out.println("Reflective shield activated!");
+	}
 
-private void deactivateReflectiveShieldVisual() {
-	setEffect(null); // Remove the glowing effect
-	System.out.println("Reflective shield deactivated!");
-}
+	private void deactivateReflectiveShieldVisual() {
+		setEffect(null); // Remove the glowing effect
+		System.out.println("Reflective shield deactivated!");
+	}
 }

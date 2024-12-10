@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controller.EndScreenController">
+    <children>
+        <ImageView fx:id="backgroundImage" fitHeight="750.0" fitWidth="1300.0">
+            <image>
+                <Image url="@../view/mariolandingpage.jpg" />
+            </image>
+        </ImageView>
+        <ImageView fx:id="playAgainImage" fitHeight="151.0" fitWidth="413.0" layoutX="444.0" layoutY="307.0" preserveRatio="true">
+            <image>
+                <Image url="@../view/playAgain.png" />
+            </image>
+        </ImageView>
+        <ImageView fx:id="exitImage" fitHeight="72.0" fitWidth="238.0" layoutX="537.0" layoutY="422.0" preserveRatio="true">
+            <image>
+                <Image url="@../view/exitImage.png" />
+            </image>
+        </ImageView>
+    </children>
+</AnchorPane>

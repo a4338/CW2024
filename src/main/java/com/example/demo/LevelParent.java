@@ -1,14 +1,19 @@
- package com.example.demo;
+package com.example.demo;
 
 import java.util.*;
 import java.util.stream.Collectors;
-
 import javafx.animation.*;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.*;
 import javafx.scene.input.*;
+import javafx.util.Duration;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+import javafx.animation.PauseTransition;
 import javafx.util.Duration;
 
 
@@ -176,22 +181,22 @@ public abstract class LevelParent extends Observable {
 
 
 	private void handleEnemyProjectileCollisions() {
-	handleCollisions(enemyProjectiles, friendlyUnits);
+		handleCollisions(enemyProjectiles, friendlyUnits);
 	}
 
 
-private void handleCollisions(List<ActiveActorDestructible> actors1,
-							  List<ActiveActorDestructible> actors2) {
-	for (ActiveActorDestructible actor : actors2) {
-		for (ActiveActorDestructible otherActor : actors1) {
-			if (actor.getBoundsInParent().intersects(otherActor.getBoundsInParent())) {
-				actor.takeDamage();
-				otherActor.takeDamage();
+	private void handleCollisions(List<ActiveActorDestructible> actors1,
+								  List<ActiveActorDestructible> actors2) {
+		for (ActiveActorDestructible actor : actors2) {
+			for (ActiveActorDestructible otherActor : actors1) {
+				if (actor.getBoundsInParent().intersects(otherActor.getBoundsInParent())) {
+					actor.takeDamage();
+					otherActor.takeDamage();
 
+				}
 			}
 		}
 	}
-}
 
 
 	private void handleEnemyPenetration() {
@@ -226,12 +231,11 @@ private void handleCollisions(List<ActiveActorDestructible> actors1,
 	protected void winGame() {
 		timeline.stop();
 		levelView.showWinImage();
+		// Add a 3-second delay before transitioning to the end screen
+		PauseTransition pause = new PauseTransition(Duration.seconds(3));
+		pause.setOnFinished(event -> goToEndScreen(true)); // Transition to end screen after delay
+		pause.play();
 	}
-
-	/* protected void loseGame() {
-		timeline.stop();
-		levelView.showGameOverImage();
-	} */
 
 	protected UserPlane getUser() {
 		return user;
@@ -271,5 +275,29 @@ private void handleCollisions(List<ActiveActorDestructible> actors1,
 	protected void loseGame() {
 		timeline.stop();
 		levelView.showGameOverImage();
+		goToEndScreen(false); // Pass false to indicate a loss
+	}
+
+	private void goToEndScreen(boolean playerWon) {
+		try {
+			// Load the end screen
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/view/endScreen.fxml"));
+			Pane endScreenRoot = loader.load();
+
+			// Optionally, customize the screen for win/loss
+			if (playerWon) {
+				System.out.println("Player won!");
+			} else {
+				System.out.println("Player lost!");
+			}
+
+			// Get the current stage and set the new scene
+			Stage stage = (Stage) root.getScene().getWindow();
+			Scene endScreenScene = new Scene(endScreenRoot, screenWidth, screenHeight);
+			stage.setScene(endScreenScene);
+			stage.show();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

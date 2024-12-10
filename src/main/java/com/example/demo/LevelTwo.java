@@ -35,18 +35,6 @@ public class LevelTwo extends LevelParent {
 		getRoot().getChildren().add(getUser());
 	}
 
-	/*
-	@Override
-	protected void checkIfGameOver() {
-		if (userIsDestroyed()) {
-			loseGame();
-		}
-		else if (boss.isDestroyed()) {
-			goToNextLevel(NEXT_LEVEL);
-			//winGame();
-		}
-	}  */
-
 	@Override
 	protected void checkIfGameOver() {
 		if (userIsDestroyed()) {
@@ -63,20 +51,18 @@ public class LevelTwo extends LevelParent {
 	@Override
 	protected void spawnEnemyUnits() {
 		if (getCurrentNumberOfEnemies() == 0 && !isBossSpawned) {
-			// addEnemyUnit(boss);
-			// levelView.updateShieldPosition(boss.getLayoutX(), boss.getLayoutY());
 			System.out.println("Spawning boss enemy");
 			// boss = new Boss((LevelViewLevelTwo) levelView);
 			addEnemyUnit(boss);
 			isBossSpawned = true;
 		}
-		}
+	}
 
 
 	@Override
 	protected LevelView instantiateLevelView() {
 		levelView = new LevelViewLevelTwo(getRoot(), PLAYER_INITIAL_HEALTH);
-		 return levelView;
+		return levelView;
 	}
 
 }
