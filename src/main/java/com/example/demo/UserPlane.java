@@ -64,6 +64,7 @@ public class UserPlane extends FighterPlane {
 	}
 	@Override
 	public ActiveActorDestructible fireProjectile() {
+		AudioManager.playSoundEffect("/com/example/demo/audio/userShoot.wav"); // Play shooting sound
 		return new UserProjectile(PROJECTILE_X_POSITION, getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET));
 	}
 	private boolean isMoving() {

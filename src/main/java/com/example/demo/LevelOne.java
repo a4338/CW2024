@@ -1,5 +1,7 @@
 package com.example.demo;
-
+import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.Scene;
 
 public class LevelOne extends LevelParent {
 	
@@ -14,7 +16,6 @@ public class LevelOne extends LevelParent {
 	public LevelOne(double screenHeight, double screenWidth) {
 		super(BACKGROUND_IMAGE_NAME, screenHeight, screenWidth, PLAYER_INITIAL_HEALTH);
 	}
-
 
 	@Override
 	protected void checkIfGameOver() {

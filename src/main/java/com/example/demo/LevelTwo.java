@@ -4,6 +4,9 @@ import com.example.demo.Boss;
 import javafx.application.Platform;
 import javafx.beans.Observable;
 import javafx.scene.Group;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 
@@ -29,6 +32,7 @@ public class LevelTwo extends LevelParent {
 		super(BACKGROUND_IMAGE_NAME, screenHeight, screenWidth, PLAYER_INITIAL_HEALTH);
 		boss = new Boss(levelView);
 	}
+
 
 	@Override
 	protected void initializeFriendlyUnits() {

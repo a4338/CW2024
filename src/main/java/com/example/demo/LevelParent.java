@@ -38,6 +38,8 @@ public abstract class LevelParent extends Observable {
 
 	private int currentNumberOfEnemies;
 	private LevelView levelView;
+	private boolean isPaused = false;
+	private boolean isMuted = false;
 
 
 	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth) {
@@ -60,6 +62,39 @@ public abstract class LevelParent extends Observable {
 		friendlyUnits.add(user);
 	}
 
+	private void togglePause(){
+		if (isPaused) {
+			resumeGame();
+		} else {
+			pauseGame();
+		}
+	}
+
+	private void pauseGame() {
+		isPaused = true;
+		timeline.pause(); // Stop the game loop
+		AudioManager.pauseBackgroundMusic(); // Pause background music
+	}
+
+	private void resumeGame() {
+		isPaused = false;
+		timeline.play(); // Resume the game loop
+		AudioManager.resumeBackgroundMusic(); // Resume background music
+	}
+
+	private void toggleMute() {
+		if (isMuted) {
+			AudioManager.unmute();
+			isMuted = false;
+			System.out.println("Sound unmuted");
+		} else {
+			AudioManager.mute();
+			isMuted = true;
+			System.out.println("Sound muted");
+		}
+	}
+
+
 	protected abstract void initializeFriendlyUnits();
 
 	protected abstract void checkIfGameOver();
@@ -73,8 +108,10 @@ public abstract class LevelParent extends Observable {
 		initializeBackground();
 		initializeFriendlyUnits();
 		levelView.showHeartDisplay();
+		AudioManager.startBackgroundMusic("/com/example/demo/audio/background.wav"); // Start background music
 		return scene;
 	}
+
 
 	public void startGame() {
 		background.requestFocus();
@@ -115,20 +152,26 @@ public abstract class LevelParent extends Observable {
 		background.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent e) {
 				KeyCode kc = e.getCode();
-				if (kc == KeyCode.UP) user.moveUp();
-				if (kc == KeyCode.DOWN) user.moveDown();
-				if (kc == KeyCode.RIGHT) user.moveForward(); // Add forward movement
-				if (kc == KeyCode.LEFT) user.moveBackward(); // Add backward movement
-				if (kc == KeyCode.SPACE) fireProjectile();
+				if (kc == KeyCode.P) { // Press "P" to toggle pause
+					togglePause();
+				} else if (!isPaused) { // Allow other inputs only if not paused
+					if (kc == KeyCode.UP) user.moveUp();
+					if (kc == KeyCode.DOWN) user.moveDown();
+					if (kc == KeyCode.RIGHT) user.moveForward();
+					if (kc == KeyCode.LEFT) user.moveBackward();
+					if (kc == KeyCode.SPACE) fireProjectile();
+					if (kc == KeyCode.M) toggleMute();  // Mute key
 			}
-		});
-		background.setOnKeyReleased(new EventHandler<KeyEvent>() {
-			public void handle(KeyEvent e) {
+		}});
+
+		background.setOnKeyReleased(e -> {
+			if (!isPaused) {
 				KeyCode kc = e.getCode();
 				if (kc == KeyCode.UP || kc == KeyCode.DOWN) user.stop();
 				if (kc == KeyCode.RIGHT || kc == KeyCode.LEFT) user.stop();
 			}
 		});
+
 		root.getChildren().add(background);
 	}
 
@@ -228,14 +271,6 @@ public abstract class LevelParent extends Observable {
 		return false;
 	}
 
-	protected void winGame() {
-		timeline.stop();
-		levelView.showWinImage();
-		// Add a 3-second delay before transitioning to the end screen
-		PauseTransition pause = new PauseTransition(Duration.seconds(3));
-		pause.setOnFinished(event -> goToEndScreen(true)); // Transition to end screen after delay
-		pause.play();
-	}
 
 	protected UserPlane getUser() {
 		return user;
@@ -271,13 +306,39 @@ public abstract class LevelParent extends Observable {
 	private void updateNumberOfEnemies() {
 		currentNumberOfEnemies = enemyUnits.size();
 	}
+	protected void winGame() {
+		timeline.stop();
+		levelView.showWinImage();
+		AudioManager.pauseBackgroundMusic(); // Pause background music
+
+		// Play win sound, then game over sound, then resume background music
+		AudioManager.playSoundEffect("/com/example/demo/audio/userWin.wav", () -> {
+			AudioManager.playSoundEffect("/com/example/demo/audio/gameOver.wav", () -> {
+				AudioManager.resumeBackgroundMusic(); // Resume background music
+			});
+		});
+		// Add a 3-second delay before transitioning to the end screen
+		PauseTransition pause = new PauseTransition(Duration.seconds(3));
+		pause.setOnFinished(event -> goToEndScreen(true)); // Transition to end screen after delay
+		pause.play();
+	}
 
 	protected void loseGame() {
 		timeline.stop();
 		levelView.showGameOverImage();
+		AudioManager.pauseBackgroundMusic(); // Pause background music
+
+		// Play lose sound, then game over sound, then resume background music
+		AudioManager.playSoundEffect("/com/example/demo/audio/userDie.wav", () -> {
+			AudioManager.playSoundEffect("/com/example/demo/audio/gameOver.wav", () -> {
+				AudioManager.resumeBackgroundMusic(); // Resume background music
+			});
+		});
 		goToEndScreen(false); // Pass false to indicate a loss
 	}
-
+	public void stopGameAudio(){
+		AudioManager.stopBackgroundMusic(); // Stop the music when the level ends
+	}
 	private void goToEndScreen(boolean playerWon) {
 		try {
 			// Load the end screen
