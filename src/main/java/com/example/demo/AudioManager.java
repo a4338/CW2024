@@ -3,10 +3,33 @@ package com.example.demo;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
+/**
+ * The {@code AudioManager} class manages audio playback in the game.
+ * It provides methods to play background music, sound effects, and control
+ * playback options such as muting, pausing, and resuming.
+ *
+ * <p>
+ * This class uses static methods and properties to manage a single background
+ * music player instance and multiple sound effect players.
+ * </p>
+ */
 public class AudioManager {
+
+    /** The {@code MediaPlayer} instance for background music playback. */
     private static MediaPlayer backgroundMusicPlayer;
+
+    /** Indicates whether audio is muted. */
     private static boolean isMuted = false;
 
+    /**
+     * Starts playing the background music from the specified audio file.
+     *
+     * <p>
+     * The background music loops indefinitely until stopped or paused.
+     * </p>
+     *
+     * @param audioFilePath the file path of the background music
+     */
     public static void startBackgroundMusic(String audioFilePath) {
         if (backgroundMusicPlayer == null) {
             backgroundMusicPlayer = new MediaPlayer(new Media(AudioManager.class.getResource(audioFilePath).toExternalForm()));
@@ -18,6 +41,11 @@ public class AudioManager {
         }
     }
 
+    /**
+     * Plays a sound effect from the specified audio file.
+     *
+     * @param audioFilePath the file path of the sound effect
+     */
     public static void playSoundEffect(String audioFilePath) {
         try {
             Media media = new Media(AudioManager.class.getResource(audioFilePath).toExternalForm());
@@ -28,7 +56,13 @@ public class AudioManager {
         }
     }
 
-    // Overloaded method with a callback
+    /**
+     * Plays a sound effect from the specified audio file with a callback
+     * that runs when the sound effect ends.
+     *
+     * @param audioFilePath the file path of the sound effect
+     * @param onEnd a {@code Runnable} to execute when the sound effect ends
+     */
     public static void playSoundEffect(String audioFilePath, Runnable onEnd) {
         try {
             Media media = new Media(AudioManager.class.getResource(audioFilePath).toExternalForm());
@@ -44,6 +78,9 @@ public class AudioManager {
         }
     }
 
+    /**
+     * Mutes all audio, including background music and sound effects.
+     */
     public static void mute() {
         isMuted = true;
         if (backgroundMusicPlayer != null) {
@@ -51,6 +88,9 @@ public class AudioManager {
         }
     }
 
+    /**
+     * Unmutes all audio, including background music and sound effects.
+     */
     public static void unmute() {
         isMuted = false;
         if (backgroundMusicPlayer != null) {
@@ -58,18 +98,27 @@ public class AudioManager {
         }
     }
 
+    /**
+     * Pauses the background music playback.
+     */
     public static void pauseBackgroundMusic() {
         if (backgroundMusicPlayer != null) {
             backgroundMusicPlayer.pause();
         }
     }
 
+    /**
+     * Resumes the background music playback.
+     */
     public static void resumeBackgroundMusic() {
         if (backgroundMusicPlayer != null) {
             backgroundMusicPlayer.play();
         }
     }
 
+    /**
+     * Stops the background music playback and releases the {@code MediaPlayer} instance.
+     */
     public static void stopBackgroundMusic() {
         if (backgroundMusicPlayer != null) {
             backgroundMusicPlayer.stop();
@@ -77,128 +126,3 @@ public class AudioManager {
         }
     }
 }
-
-
-
-
-/* public class AudioManager {
-    private static MediaPlayer backgroundMusicPlayer;
-    private static boolean isMuted = false;
-
-    // Start the background music (only once)
-    public static void startBackgroundMusic(String audioFilePath) {
-        backgroundMusicPlayer = new MediaPlayer(new Media(AudioManager.class.getResource(audioFilePath).toExternalForm()));
-        backgroundMusicPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Loop background music
-        if (isMuted) {
-            backgroundMusicPlayer.setMute(true); // Respect mute state
-        }
-        backgroundMusicPlayer.play();
-    }
-
-    public static void mute() {
-        isMuted = true;
-        if (backgroundMusicPlayer != null) {
-            backgroundMusicPlayer.setMute(true);
-        }
-    }
-
-    public static void unmute() {
-        isMuted = false;
-        if (backgroundMusicPlayer != null) {
-            backgroundMusicPlayer.setMute(false);
-        }
-    }
-    // Pause the background music without resetting its position
-    public static void pauseBackgroundMusic() {
-        if (backgroundMusicPlayer != null) {
-            backgroundMusicPlayer.pause();
-        }
-    }
-
-    // Resume the background music from where it was paused
-    public static void resumeBackgroundMusic() {
-        if (backgroundMusicPlayer != null) {
-            backgroundMusicPlayer.play();
-        }
-    }
-
-    // Stop the background music completely
-    public static void stopBackgroundMusic() {
-        if (backgroundMusicPlayer != null) {
-            backgroundMusicPlayer.stop();
-            backgroundMusicPlayer = null; // Reset the player
-        }
-    }
-
-    // Play sound effects (win/lose/game over sounds)
-    public static void playSoundEffect(String audioFilePath, Runnable onEnd) {
-        try {
-            Media media = new Media(AudioManager.class.getResource(audioFilePath).toExternalForm());
-            MediaPlayer mediaPlayer = new MediaPlayer(media);
-            mediaPlayer.setOnEndOfMedia(() -> {
-                if (onEnd != null) {
-                    onEnd.run();
-                }
-            });
-            mediaPlayer.play();
-        } catch (Exception e) {
-            System.err.println("Error loading sound effect: " + e.getMessage());
-        }
-    }
-
-    // Overloaded method without Runnable
-    public static void playSoundEffect(String audioFilePath) {
-        playSoundEffect(audioFilePath, null);
-    }
-}
-*/
-
-/* package com.example.demo;
-
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-
-public class AudioManager {
-    private static MediaPlayer backgroundMusicPlayer;
-
-    public static void playSequentialAudio(String firstAudioPath, String secondAudioPath, Runnable onComplete) {
-        MediaPlayer firstPlayer = new MediaPlayer(new Media(AudioManager.class.getResource(firstAudioPath).toExternalForm()));
-        MediaPlayer secondPlayer = new MediaPlayer(new Media(AudioManager.class.getResource(secondAudioPath).toExternalForm()));
-
-        firstPlayer.setOnEndOfMedia(() -> {
-            secondPlayer.play();
-            secondPlayer.setOnEndOfMedia(() -> {
-                if (onComplete != null) {
-                    onComplete.run();
-                }
-            });
-        });
-
-        firstPlayer.play();
-    }
-
-    public static void resumeBackgroundMusic(String backgroundMusicPath) {
-        backgroundMusicPlayer = new MediaPlayer(new Media(AudioManager.class.getResource(backgroundMusicPath).toExternalForm()));
-        backgroundMusicPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Loop background music
-        backgroundMusicPlayer.play();
-    }
-
-    public static void stopBackgroundMusic() {
-        if (backgroundMusicPlayer != null) {
-            backgroundMusicPlayer.stop();
-        }
-    }
-
-    public static void playSoundEffect(String audioFilePath) {
-        try {
-            Media media = new Media(AudioManager.class.getResource(audioFilePath).toExternalForm());
-            MediaPlayer mediaPlayer = new MediaPlayer(media);
-            mediaPlayer.play();
-        } catch (Exception e) {
-            System.err.println("Error loading sound effect: " + e.getMessage());
-        }
-    }
-
-}
-
-*/

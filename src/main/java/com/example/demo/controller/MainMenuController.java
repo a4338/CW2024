@@ -7,23 +7,48 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * The {@code MainMenuController} class manages the behavior of the main menu
+ * in the application. It handles user interactions with the Play, Exit, and Help
+ * buttons, allowing navigation to the game, closing the application, or opening
+ * the help popup.
+ */
 public class MainMenuController {
 
+    /** The image view for the Play button. */
     @FXML
-    private ImageView playImage; // Corresponds to the Play button ImageView
+    private ImageView playImage;
 
+    /** The image view for the Exit button. */
     @FXML
-    private ImageView exitImage; // Corresponds to the Exit button ImageView
+    private ImageView exitImage;
 
+    /** The image view for the Help button. */
     @FXML
-    private ImageView helpImage; // Corresponds to the Help button ImageView
+    private ImageView helpImage;
 
-    private Main mainApp; // Reference to the Main application
+    /** Reference to the main application instance. */
+    private Main mainApp;
 
+    /**
+     * Sets the reference to the main application instance.
+     *
+     * @param mainApp the main application instance
+     */
     public void setMainApp(Main mainApp) {
         this.mainApp = mainApp;
     }
 
+    /**
+     * Initializes the main menu controller by setting up event listeners for the
+     * Play, Exit, and Help buttons.
+     *
+     * <p>
+     * - Clicking the Play button starts Level One of the game.
+     * - Clicking the Exit button closes the application.
+     * - Clicking the Help button opens a popup with help information.
+     * </p>
+     */
     @FXML
     private void initialize() {
         // Add event listener for playImage
@@ -49,7 +74,7 @@ public class MainMenuController {
 
                 // Create a new stage for the popup
                 Stage popupStage = new Stage();
-                popupStage.setTitle("Help");
+                popupStage.setTitle("How To Play?");
                 popupStage.initModality(Modality.APPLICATION_MODAL); // Block interaction with the main menu
                 popupStage.setScene(popupScene);
                 popupStage.show();

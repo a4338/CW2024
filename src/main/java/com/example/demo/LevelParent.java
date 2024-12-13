@@ -1,5 +1,4 @@
 package com.example.demo;
-
 import java.util.*;
 import java.util.stream.Collectors;
 import javafx.animation.*;
@@ -186,7 +185,6 @@ public abstract class LevelParent extends Observable {
 		root.getChildren().add(projectile);
 		userProjectiles.add(projectile);
 	}
-
 	private void generateEnemyFire() {
 		enemyUnits.forEach(enemy -> spawnEnemyProjectile(((FighterPlane) enemy).fireProjectile()));
 	}
@@ -244,8 +242,6 @@ public abstract class LevelParent extends Observable {
 			}
 		}
 	}
-
-
 	private void handleEnemyPenetration() {
 		for (ActiveActorDestructible enemy : enemyUnits) {
 			if (enemyHasPenetratedDefenses(enemy)) {

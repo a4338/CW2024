@@ -10,21 +10,48 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+/**
+ * The {@code Main} class serves as the entry point for the application and manages
+ * the transitions between the main menu and different game levels. It extends
+ * {@code javafx.application.Application} to support JavaFX functionality.
+ */
 public class Main extends Application {
 
-	private static final int SCREEN_WIDTH = 1300; // Window width
-	private static final int SCREEN_HEIGHT = 750; // Window height
-	private static final String TITLE = "Mario's Sky Battle";
-	private static final String BACKGROUND_MUSIC_PATH = "/com/example/demo/audio/background.wav"; // Path to background music
+	/** The width of the application window. */
+	private static final int SCREEN_WIDTH = 1300;
 
+	/** The height of the application window. */
+	private static final int SCREEN_HEIGHT = 750;
+
+	/** The title of the application window. */
+	private static final String TITLE = "Mario's Sky Battle";
+
+	/** The file path for the background music. */
+	private static final String BACKGROUND_MUSIC_PATH = "/com/example/demo/audio/background.wav";
+
+	/** The primary stage of the application. */
 	private Stage primaryStage;
 
+	/**
+	 * The main entry point for the JavaFX application.
+	 *
+	 * @param stage the primary stage for this application
+	 */
 	@Override
 	public void start(Stage stage) {
 		this.primaryStage = stage;
-		showMainMenu(); // Load MainMenu.fxml and show the main menu
+		showMainMenu();
 	}
 
+	/**
+	 * Loads and displays the main menu of the application.
+	 *
+	 * <p>
+	 * This method loads the {@code MainMenu.fxml} file, initializes the
+	 * {@code MainMenuController}, and sets up the main menu scene. It also
+	 * starts the background music.
+	 * </p>
+	 */
 	private void showMainMenu() {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/view/MainMenu.fxml"));
@@ -49,6 +76,14 @@ public class Main extends Application {
 		}
 	}
 
+	/**
+	 * Starts Level One of the game.
+	 *
+	 * <p>
+	 * This method initializes {@code LevelOne}, sets up its scene, and transitions
+	 * to Level Two upon completion.
+	 * </p>
+	 */
 	public void startLevelOne() {
 		try {
 			LevelOne levelOne = new LevelOne(SCREEN_HEIGHT, SCREEN_WIDTH);
@@ -68,6 +103,14 @@ public class Main extends Application {
 		}
 	}
 
+	/**
+	 * Starts Level Two of the game.
+	 *
+	 * <p>
+	 * This method initializes {@code LevelTwo}, sets up its scene, and transitions
+	 * to Level Three upon completion.
+	 * </p>
+	 */
 	public void startLevelTwo() {
 		try {
 			LevelTwo levelTwo = new LevelTwo(SCREEN_HEIGHT, SCREEN_WIDTH);
@@ -87,6 +130,14 @@ public class Main extends Application {
 		}
 	}
 
+	/**
+	 * Starts Level Three of the game.
+	 *
+	 * <p>
+	 * This method initializes {@code LevelThree}, sets up its scene, and
+	 * transitions back to the main menu upon completion.
+	 * </p>
+	 */
 	public void startLevelThree() {
 		try {
 			LevelThree levelThree = new LevelThree(SCREEN_HEIGHT, SCREEN_WIDTH);
@@ -105,12 +156,23 @@ public class Main extends Application {
 		}
 	}
 
+	/**
+	 * Cleans up resources when the application stops.
+	 *
+	 * <p>
+	 * This method stops the background music when the application is closed.
+	 * </p>
+	 */
 	@Override
 	public void stop() {
-		// Stop the background music when the application closes
 		AudioManager.stopBackgroundMusic();
 	}
 
+	/**
+	 * The main method, which serves as the application's entry point.
+	 *
+	 * @param args the command-line arguments
+	 */
 	public static void main(String[] args) {
 		launch();
 	}
