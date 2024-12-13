@@ -1,5 +1,4 @@
 package com.example.demo;
-import javafx.scene.effect.Glow;
 public class UserPlane extends FighterPlane {
 
 	private static final String IMAGE_NAME = "userplane.png";
@@ -20,15 +19,12 @@ public class UserPlane extends FighterPlane {
 	private int numberOfKills;
 	// private int velocityMultiplier;
 
-	//reflective shield state
-	private boolean reflectiveShieldActive;
 
 	public UserPlane(int initialHealth) {
 		super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, initialHealth);
 		// velocityMultiplier = 0;
 		verticalVelocityMultiplier = 0;
 		horizontalVelocityMultiplier = 0;
-		reflectiveShieldActive = false; //initialise shield
 	}
 
 	@Override
@@ -62,11 +58,14 @@ public class UserPlane extends FighterPlane {
 	public void updateActor() {
 		updatePosition();
 	}
+
 	@Override
 	public ActiveActorDestructible fireProjectile() {
 		AudioManager.playSoundEffect("/com/example/demo/audio/userShoot.wav"); // Play shooting sound
-		return new UserProjectile(PROJECTILE_X_POSITION, getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET));
+		return new UserProjectile(
+				PROJECTILE_X_POSITION, getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET));
 	}
+
 	private boolean isMoving() {
 		return verticalVelocityMultiplier != 0 || horizontalVelocityMultiplier != 0;
 	}
@@ -94,7 +93,6 @@ public class UserPlane extends FighterPlane {
 	}
 
 	public int getNumberOfKills() {
-
 		// System.out.println("Number of enemies killed:"+ numberOfKills);
 		return numberOfKills;
 	}
@@ -102,28 +100,5 @@ public class UserPlane extends FighterPlane {
 	public void incrementKillCount() {
 
 		numberOfKills++;
-	}
-	// Reflective Shield Logic
-	public void setReflectiveShieldActive(boolean isActive) {
-		this.reflectiveShieldActive = isActive;
-		if (isActive) {
-			activateReflectiveShieldVisual();
-		} else {
-			deactivateReflectiveShieldVisual();
-		}
-	}
-
-	public boolean isReflectiveShieldActive() {
-		return reflectiveShieldActive;
-	}
-
-	private void activateReflectiveShieldVisual() {
-		setEffect(new Glow(0.5)); // Add a glowing effect to indicate the shield is active
-		System.out.println("Reflective shield activated!");
-	}
-
-	private void deactivateReflectiveShieldVisual() {
-		setEffect(null); // Remove the glowing effect
-		System.out.println("Reflective shield deactivated!");
 	}
 }

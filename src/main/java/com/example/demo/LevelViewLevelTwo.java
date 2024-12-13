@@ -52,6 +52,7 @@ public class LevelViewLevelTwo extends LevelView {
 
 	public void showShield() {
 		shieldImage.setVisible(true); // Make the shield visible
+		root.getChildren().add(shieldImage); // Ensure it's added to the scene graph
 		System.out.println("Shield is now visible."); // Debugging statement
 	}
 

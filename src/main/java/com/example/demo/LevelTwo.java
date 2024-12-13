@@ -56,7 +56,6 @@ public class LevelTwo extends LevelParent {
 	protected void spawnEnemyUnits() {
 		if (getCurrentNumberOfEnemies() == 0 && !isBossSpawned) {
 			System.out.println("Spawning boss enemy");
-			// boss = new Boss((LevelViewLevelTwo) levelView);
 			addEnemyUnit(boss);
 			isBossSpawned = true;
 		}

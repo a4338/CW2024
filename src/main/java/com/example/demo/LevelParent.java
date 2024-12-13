@@ -40,7 +40,7 @@ public abstract class LevelParent extends Observable {
 	private LevelView levelView;
 	private boolean isPaused = false;
 	private boolean isMuted = false;
-
+	private ImageView pauseOverlay;
 
 	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth) {
 		this.root = new Group();
@@ -59,9 +59,15 @@ public abstract class LevelParent extends Observable {
 		this.levelView = instantiateLevelView();
 		this.currentNumberOfEnemies = 0;
 		initializeTimeline();
+		initializePauseOverlay();
 		friendlyUnits.add(user);
 	}
+	public void startGame() {
+		background.requestFocus();
+		timeline.play();
+	}
 
+	// Pause and Mute Methods
 	private void togglePause(){
 		if (isPaused) {
 			resumeGame();
@@ -70,18 +76,31 @@ public abstract class LevelParent extends Observable {
 		}
 	}
 
+
 	private void pauseGame() {
 		isPaused = true;
 		timeline.pause(); // Stop the game loop
 		AudioManager.pauseBackgroundMusic(); // Pause background music
+		pauseOverlay.setVisible(true);
+		System.out.println("Pause overlay made visible");
 	}
 
 	private void resumeGame() {
 		isPaused = false;
 		timeline.play(); // Resume the game loop
 		AudioManager.resumeBackgroundMusic(); // Resume background music
+		pauseOverlay.setVisible(false); // Hide pause overlay
+		System.out.println("Pause overlay hidden");
 	}
-
+	private void initializePauseOverlay() {
+		pauseOverlay = new ImageView(new Image(getClass().getResource("/com/example/demo/images/pauseOverlay.png").toExternalForm()));
+		pauseOverlay.setFitWidth(300); // Set the width of the overlay image
+		pauseOverlay.setFitHeight(300); // Set the height of the overlay image
+		pauseOverlay.setVisible(false); // Initially invisible
+		pauseOverlay.setLayoutX((screenWidth - pauseOverlay.getFitWidth()) / 2); // Center horizontally
+		pauseOverlay.setLayoutY((screenHeight - pauseOverlay.getFitHeight()) / 2); // Center vertically
+		root.getChildren().add(pauseOverlay); // Add it to the scene graph
+	}
 	private void toggleMute() {
 		if (isMuted) {
 			AudioManager.unmute();
@@ -108,22 +127,8 @@ public abstract class LevelParent extends Observable {
 		initializeBackground();
 		initializeFriendlyUnits();
 		levelView.showHeartDisplay();
-		AudioManager.startBackgroundMusic("/com/example/demo/audio/background.wav"); // Start background music
 		return scene;
 	}
-
-
-	public void startGame() {
-		background.requestFocus();
-		timeline.play();
-	}
-
-	public void goToNextLevel(String levelName) {
-		setChanged();
-		notifyObservers(levelName);
-		// timeline.stop
-	}
-
 	private void updateScene() {
 		spawnEnemyUnits();
 		updateActors();
@@ -138,6 +143,7 @@ public abstract class LevelParent extends Observable {
 		updateLevelView();
 		checkIfGameOver();
 	}
+
 
 	private void initializeTimeline() {
 		timeline.setCycleCount(Timeline.INDEFINITE);
@@ -221,8 +227,6 @@ public abstract class LevelParent extends Observable {
 		handleCollisions(userProjectiles, enemyUnits);
 	}
 
-
-
 	private void handleEnemyProjectileCollisions() {
 		handleCollisions(enemyProjectiles, friendlyUnits);
 	}
@@ -267,7 +271,6 @@ public abstract class LevelParent extends Observable {
 		if(enemy instanceof EnemyProjectile){
 			return enemy.getX() <= 0;
 		}
-
 		return false;
 	}
 
@@ -296,9 +299,7 @@ public abstract class LevelParent extends Observable {
 	protected double getScreenWidth() {
 		return screenWidth;
 	}
-	/* protected double getScreenHeight(){
-		return screenHeight;
-	} */
+
 	protected boolean userIsDestroyed() {
 		return user.isDestroyed();
 	}
@@ -317,6 +318,7 @@ public abstract class LevelParent extends Observable {
 				AudioManager.resumeBackgroundMusic(); // Resume background music
 			});
 		});
+
 		// Add a 3-second delay before transitioning to the end screen
 		PauseTransition pause = new PauseTransition(Duration.seconds(3));
 		pause.setOnFinished(event -> goToEndScreen(true)); // Transition to end screen after delay
@@ -336,8 +338,9 @@ public abstract class LevelParent extends Observable {
 		});
 		goToEndScreen(false); // Pass false to indicate a loss
 	}
-	public void stopGameAudio(){
-		AudioManager.stopBackgroundMusic(); // Stop the music when the level ends
+	public void goToNextLevel(String levelName) {
+		setChanged();
+		notifyObservers(levelName);
 	}
 	private void goToEndScreen(boolean playerWon) {
 		try {

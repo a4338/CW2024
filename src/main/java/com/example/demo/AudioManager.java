@@ -7,6 +7,84 @@ public class AudioManager {
     private static MediaPlayer backgroundMusicPlayer;
     private static boolean isMuted = false;
 
+    public static void startBackgroundMusic(String audioFilePath) {
+        if (backgroundMusicPlayer == null) {
+            backgroundMusicPlayer = new MediaPlayer(new Media(AudioManager.class.getResource(audioFilePath).toExternalForm()));
+            backgroundMusicPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+            if (isMuted) {
+                backgroundMusicPlayer.setMute(true);
+            }
+            backgroundMusicPlayer.play();
+        }
+    }
+
+    public static void playSoundEffect(String audioFilePath) {
+        try {
+            Media media = new Media(AudioManager.class.getResource(audioFilePath).toExternalForm());
+            MediaPlayer mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.play();
+        } catch (Exception e) {
+            System.err.println("Error loading sound effect: " + e.getMessage());
+        }
+    }
+
+    // Overloaded method with a callback
+    public static void playSoundEffect(String audioFilePath, Runnable onEnd) {
+        try {
+            Media media = new Media(AudioManager.class.getResource(audioFilePath).toExternalForm());
+            MediaPlayer mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.setOnEndOfMedia(() -> {
+                if (onEnd != null) {
+                    onEnd.run();
+                }
+            });
+            mediaPlayer.play();
+        } catch (Exception e) {
+            System.err.println("Error loading sound effect: " + e.getMessage());
+        }
+    }
+
+    public static void mute() {
+        isMuted = true;
+        if (backgroundMusicPlayer != null) {
+            backgroundMusicPlayer.setMute(true);
+        }
+    }
+
+    public static void unmute() {
+        isMuted = false;
+        if (backgroundMusicPlayer != null) {
+            backgroundMusicPlayer.setMute(false);
+        }
+    }
+
+    public static void pauseBackgroundMusic() {
+        if (backgroundMusicPlayer != null) {
+            backgroundMusicPlayer.pause();
+        }
+    }
+
+    public static void resumeBackgroundMusic() {
+        if (backgroundMusicPlayer != null) {
+            backgroundMusicPlayer.play();
+        }
+    }
+
+    public static void stopBackgroundMusic() {
+        if (backgroundMusicPlayer != null) {
+            backgroundMusicPlayer.stop();
+            backgroundMusicPlayer = null;
+        }
+    }
+}
+
+
+
+
+/* public class AudioManager {
+    private static MediaPlayer backgroundMusicPlayer;
+    private static boolean isMuted = false;
+
     // Start the background music (only once)
     public static void startBackgroundMusic(String audioFilePath) {
         backgroundMusicPlayer = new MediaPlayer(new Media(AudioManager.class.getResource(audioFilePath).toExternalForm()));
@@ -73,7 +151,7 @@ public class AudioManager {
         playSoundEffect(audioFilePath, null);
     }
 }
-
+*/
 
 /* package com.example.demo;
 

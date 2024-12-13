@@ -10,7 +10,7 @@ public class LevelView {
 	private static final int WIN_IMAGE_Y_POSITION = 175;
 	private static final int LOSS_SCREEN_X_POSITION = 300; //-160;
 	private static final int LOSS_SCREEN_Y_POSITION = 300;//-375;
-	private final Group root;
+	public final Group root;
 	private final WinImage winImage;
 	private final GameOverImage gameOverImage;
 	private final HeartDisplay heartDisplay;
@@ -31,7 +31,7 @@ public class LevelView {
 		winImage.showWinImage();
 	}
 
-	public void showGameOverImage() {
+	public void showGameOverImage()  {
 		root.getChildren().add(gameOverImage);
 	}
 
