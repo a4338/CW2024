@@ -1,5 +1,6 @@
-![mariolanding.png](..%2F..%2F..%2F..%2Fresources%2Fcom%2Fexample%2Fdemo%2Fview%2Fmariolanding.png)
-~**🚀🎮Welcome to Mario's Sky Battle!🎮🚀**~
+![mariolanding](https://github.com/user-attachments/assets/b243482a-bd46-45fd-8c67-534bd141f576)
+
+**🚀🎮Welcome to Mario's Sky Battle!🎮🚀**
 
 Github link: https://github.com/a4338/CW2024.git
 
@@ -185,18 +186,24 @@ Nurul Farah Atiqah
 --------------------------------------------
 ## Screenshots 
 ### Main Menu
-![mainmenu-img.png](..%2F..%2F..%2F..%2Fresources%2Fcom%2Fexample%2Fdemo%2Fimages%2Freadme%20images%2Fmainmenu-img.png)
+![mainmenu-img](https://github.com/user-attachments/assets/7526e24a-24f6-424c-bbbf-4daa9df78554)
+
+
 ### Help Screen 
-![helpscreen-img.png](..%2F..%2F..%2F..%2Fresources%2Fcom%2Fexample%2Fdemo%2Fimages%2Freadme%20images%2Fhelpscreen-img.png)
+![helpscreen-img](https://github.com/user-attachments/assets/2b8ea90e-b86f-4ff9-b889-e9648bf0cae9)
+
 ### Level One 
-![level1-img.png](..%2F..%2F..%2F..%2Fresources%2Fcom%2Fexample%2Fdemo%2Fimages%2Freadme%20images%2Flevel1-img.png)
+![level1-img](https://github.com/user-attachments/assets/87b9288c-3300-484d-bc69-84d0043c3e09)
 
 ### Level Two
-![level2-img.png](..%2F..%2F..%2F..%2Fresources%2Fcom%2Fexample%2Fdemo%2Fimages%2Freadme%20images%2Flevel2-img.png)
+![level2-img](https://github.com/user-attachments/assets/ff71c82e-7b8f-47b7-9da6-5a500a5b5a7b)
+
 ### Level Three
-![level3-img.png](..%2F..%2F..%2F..%2Fresources%2Fcom%2Fexample%2Fdemo%2Fimages%2Freadme%20images%2Flevel3-img.png)
+![level3-img](https://github.com/user-attachments/assets/9ce7ac5a-53d1-44d3-b0ce-04b2efb2c914)
+
 ### Game Over
-![gameover-img.png](..%2F..%2F..%2F..%2Fresources%2Fcom%2Fexample%2Fdemo%2Fimages%2Freadme%20images%2Fgameover-img.png)
+![gameover-img](https://github.com/user-attachments/assets/481ebfb2-1b67-4cf3-ad6c-129345f3e38e)
+
 
 
 -------------------------------------------
